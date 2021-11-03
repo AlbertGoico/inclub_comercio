@@ -1,0 +1,79 @@
+﻿/*
+Created: 2/11/2021
+Modified: 2/11/2021
+Project: Comercio
+Model: Comercio
+Author: Luis Goicochea
+Database: MS SQL Server 2019
+*/
+
+
+-- Create tables section -------------------------------------------------
+
+-- Table PRODUCTO
+
+CREATE TABLE [PRODUCTO]
+(
+ [ID_PRODUCTO] Numeric(18,0) IDENTITY NOT NULL,
+ [NOMBRE] Varchar(150) NULL,
+ [DESCRIPCION] Varchar(250) NULL,
+ [PRECIO_VENTA] Numeric(18,2) NULL,
+ [HABILITADO] Bit DEFAULT 1 NULL
+)
+go
+
+-- Add keys for table PRODUCTO
+
+ALTER TABLE [PRODUCTO] ADD CONSTRAINT [PK_PRODUCTO] PRIMARY KEY ([ID_PRODUCTO])
+go
+
+-- Table COMPRAS
+
+CREATE TABLE [COMPRAS]
+(
+ [ID_COMPRAS] Numeric(18,0) IDENTITY NOT NULL,
+ [FECHA_COMPRA] Datetime DEFAULT GETDATE() NULL,
+ [ID_USUARIO] Numeric(18,0) NOT NULL,
+ [ID_PRODUCTO] Numeric(18,0) NOT NULL,
+ [CANTIDAD] Int DEFAULT 0 NULL,
+ [SUB_TOTAL] Numeric(18,2) DEFAULT 0 NULL
+)
+go
+
+-- Add keys for table COMPRAS
+
+ALTER TABLE [COMPRAS] ADD CONSTRAINT [PK_COMPRAS] PRIMARY KEY ([ID_COMPRAS])
+go
+
+-- Table USUARIOS
+
+CREATE TABLE [USUARIOS]
+(
+ [ID_USUARIO] Numeric(18,0) IDENTITY NOT NULL,
+ [FECHA_POR_DEFECTO] Datetime DEFAULT GETDATE() NULL,
+ [CODIGO_USUARIO] Varchar(5) NULL,
+ [NOMBRES] Varchar(100) NULL,
+ [PASS] Varchar(12) NULL,
+ [HABILITADO] Bit DEFAULT 1 NULL
+)
+go
+
+-- Add keys for table USUARIOS
+
+ALTER TABLE [USUARIOS] ADD CONSTRAINT [PK_USUARIOS] PRIMARY KEY ([ID_USUARIO])
+go
+
+-- Create foreign keys (relationships) section ------------------------------------------------- 
+
+
+ALTER TABLE [COMPRAS] ADD CONSTRAINT [Relationship1] FOREIGN KEY ([ID_USUARIO]) REFERENCES [USUARIOS] ([ID_USUARIO]) ON UPDATE NO ACTION ON DELETE NO ACTION
+go
+
+
+
+ALTER TABLE [COMPRAS] ADD CONSTRAINT [Relationship2] FOREIGN KEY ([ID_PRODUCTO]) REFERENCES [PRODUCTO] ([ID_PRODUCTO]) ON UPDATE NO ACTION ON DELETE NO ACTION
+go
+
+
+
+
